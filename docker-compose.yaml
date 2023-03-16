@@ -1,0 +1,36 @@
+version: '3.9'
+
+networks:
+  postgresnet:
+    driver: bridge
+
+volumes:
+  postgress-data:
+  pgadmin-data:
+
+services:
+  postgress:
+    image: postgres:latest
+    container_name: postgres
+    networks:
+      - postgresnet
+    ports:
+      - 5432:5432
+    volumes:
+      - postgress-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: desafio3
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    networks:
+      - postgresnet
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: eu@eu.com
+      PGADMIN_DEFAULT_PASSWORD: admin
